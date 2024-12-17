@@ -8,12 +8,21 @@
 </form>
     {% if weather %}
         <h1>Information météo</h1>
+        <h2>{{ weather.city }}, {{ weather.country }}</h2>
+        <p> Icon : <stron> {{ weather.icon }} </strong> 
+                        <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon"></p>
         <p> Ville : <stron> {{ weather.city }} </strong> </p>
-        <p> Temperature : <stron> {{ weather.temperature}} </strong> </p>
-        <p> Condition : <stron> {{ weather.condition }}</strong> </p>
         <p> description : <stron> {{ weather.description }} </strong> </p>
-        <p> Icon : <stron> {{ weather.icon }} </strong> </p>
+        
         <p> Date : <stron> {{ weather.date }} </strong> </p>
+        <p>Condition: {{ weather.condition }}</p>
+        <p>Temperature: {{ weather.temperature }}°C (sensation: {{ weather.feels_like }}°C)</p>
+        <p>Pressure: {{ weather.pressure }} hPa</p>
+        <p>Humidity: {{ weather.humidity }}%</p>
+        <p>Wind Speed: {{ weather.wind_speed }} m/s | Direction: {{ weather.wind_direction }}°</p>
+        <p>Sunrise: {{ weather.sunrise }} | Sunset: {{ weather.sunset }}</p>
+            {{response}}
+            
 
     {% endif %}
     {% if error %}
