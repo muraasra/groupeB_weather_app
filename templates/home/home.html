@@ -1,5 +1,25 @@
 {% extends "default.html" %}
 {% block body%}
 <h1>"Application pour la méteo"</h1>
+<form method="POST" action="/weather">
+    <input type="text" name="city" id="city" placeholder="Entrer le nom d'une vile ">
+    <button type="submit" name="submit"> submit</button>
+</form>
+    {% if weather %}
+        <h1>Information météo</h1>
+        <p> Ville : <stron> {{ weather.city }} </strong> </p>
+        <p> Temperature : <stron> {{ weather.temperature}} </strong> </p>
+        <p> Condition : <stron> {{ weather.condition }}</strong> </p>
+        <p> description : <stron> {{ weather.description }} </strong> </p>
+        <p> Icon : <stron> {{ weather.icon }} </strong> </p>
+        <p> Date : <stron> {{ weather.date }} </strong> </p>
+
+    {% endif %}
+    {% if error %}
+            <h4>{{ error }}</h4>
+    {% endif %}
+    {% if test %}
+            <h4>{{ test }}</h4>
+    {% endif %}
 
 {% endblock %}
