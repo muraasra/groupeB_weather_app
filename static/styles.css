@@ -1,5 +1,104 @@
+
+        /* Styles de base */
+body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #1E3A8A; /* Fond bleu foncé par défaut */
+            color: white;
+            transition: background-color 1s ease;
+    }
+
+h1, form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+form input, form button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+.weather-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Animation Nuage */
+.cloud {
+            position: absolute;
+            top: 20%;
+            left: -200px;
+            width: 200px;
+            height: 100px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: moveCloud 3s linear forwards;
+        }
+
+ @keyframes moveCloud {
+            0% { left: -200px; }
+            100% { left: 30%; }
+        }
+
+        /* Flocons de neige */
+        .
+/* Flocons de neige */
+.snowflake {
+    position: absolute;
+    top: 0;
+    background-color: white;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: fall 5s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+}
+
+/* Gouttes de pluie */
+.rain-drop {
+    position: absolute;
+    top: 0;
+    background-color: #4FC3F7;
+    width: 3px;
+    height: 20px;
+    border-radius: 50%;
+    animation: rainFall 2s linear infinite;
+}
+
+@keyframes rainFall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+}
+
+/* Soleil */
+.sun {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: #FFB74D;
+    border-radius: 50%;
+    animation: riseSun 3s ease-out forwards;
+}
+
+@keyframes riseSun {
+    0% { transform: translateY(0); }
+    100% { transform: translate(-50%, -300px); }
+}
+
+    /*
 html, body {
-    /* background-image: url(vignette_paysage-12-ff1e58-0@1x.jpg);*/
+ background-image: url(vignette_paysage-12-ff1e58-0@1x.jpg);
     height: 100vh;
     margin: 0;
     background: linear-gradient(to bottom,  #2a8bec, #2a8bec);
