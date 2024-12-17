@@ -1,7 +1,7 @@
 ### Application meteo avec flask
 ### configuration
 1.Installez les dependances : 
-creer l'environnement virtuel : python -m venv venv 
+creer l'environnement virtuel : 
 l'activer et configurer les dependances
 bash : pip install -r requierements.txt
 

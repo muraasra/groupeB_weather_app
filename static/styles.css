@@ -1,0 +1,35 @@
+html, body {
+    /* background-image: url(vignette_paysage-12-ff1e58-0@1x.jpg);*/
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(to bottom,  #2a8bec, #2a8bec);
+}
+
+.left-box {
+    background: #0cc7eda1;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 50px;
+    justify-content: center;
+
+}
+
+.featured-image img {
+    max-width: 100%;
+    height: auto;
+}
+/*
+.head {
+    display: flex;
+    justify-content: center;  
+    align-items: center;      
+    height: 100px;            
+}
+
+.head .logo {
+    max-width: 100%;         
+    height: auto;             
+    max-height: 100px;        
+}
+*/
