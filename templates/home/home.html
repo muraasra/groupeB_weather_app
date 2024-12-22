@@ -1,35 +1,140 @@
 {% extends "default.html" %}
-{% block body%}
-<link rel="stylesheet" href="/static/styles.css">
-<h1>"Application pour la méteo"</h1>
-<form method="POST" action="/weather">
-    <input type="text" name="city" id="city" placeholder="Entrer le nom d'une vile ">
-    <button type="submit" name="submit"> Rechercher</button>
-</form>
+{% block body %}
+<!-- Lien vers le fichier CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<body data-weather="Rain" class="{% if weather %}weather-found{% endif %} {% if error %}weather-found{% endif %} {% if test %}weather-found{% endif %}">
+    <div class="container">
+        <div class="data-toggle"></div>
+        <h1>"W-App : Votre météo est notre priorité"</h1>
+        <div id="animation-container"></div>
+
+        <form method="POST" action="/">
+            <input type="text" name="city" id="city" placeholder="Entrer le nom d'une ville">
+            <button type="submit" name="submit"  class="btn btn-success">Rechercher</button>
+        </form>
+    </div>
+
+<a class="history btn btn-primary" href="/history">Historique</a>
     {% if weather %}
-        <h1>Information météo</h1>
-        <h2>{{ weather.city }}, {{ weather.country }}</h2>
-        <p> Icon : <stron> {{ weather.icon }} </strong> 
-                        <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon"></p>
-        <p> Ville : <stron> {{ weather.city }} </strong> </p>
-        <p> description : <stron> {{ weather.description }} </strong> </p>
-        
-        <p> Date : <stron> {{ weather.date }} </strong> </p>
-        <p>Condition: {{ weather.condition }}</p>
-        <p>Temperature: {{ weather.temperature }}°C (sensation: {{ weather.feels_like }}°C)</p>
-        <p>Pressure: {{ weather.pressure }} hPa</p>
-        <p>Humidity: {{ weather.humidity }}%</p>
-        <p>Wind Speed: {{ weather.wind_speed }} m/s | Direction: {{ weather.wind_direction }}°</p>
-        <p>Sunrise: {{ weather.sunrise }} | Sunset: {{ weather.sunset }}</p>
-            {{response}}
-            
+    <div id="weather-info-container" class="weather-block-horizontal">
+        <!-- Bloc Icône en haut -->
+        <div id="weather-icon" class="weather-item-full">
+            <h1>Informations météo</h1>
+            <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon" id="weatherIcons">
+        </div>
+
+        <!-- Blocs sous forme de cartes -->
+        <div class="weather-cards">
+            <div class="weather-card">
+                <strong>Ville</strong>
+                <p>{{ weather.city }}, {{ weather.country }}</p>
+            </div>
+            <div class="weather-card">
+                <strong>Date</strong>
+                <p>{{ weather.date }}</p>
+            </div>
+            <div class="weather-card" >
+                <strong>Condition</strong>
+                <p id="weather-condition">{{ weather.condition }}</p>
+            </div>
+            <div class="weather-card">
+                <strong>Température</strong>
+                <p>{{ weather.temperature }}°C</p>
+            </div>
+            <div class="weather-card">
+                <strong>Sensation</strong>
+                <p>{{ weather.feels_like }}°C</p>
+            </div>
+            <div class="weather-card">
+                <strong>Pression</strong>
+                <p>{{ weather.pressure }} hPa</p>
+            </div>
+            <div class="weather-card">
+                <strong>Humidité</strong>
+                <p>{{ weather.humidity }}%</p>
+            </div>
+            <div class="weather-card">
+                <strong>Vent</strong>
+                <p>{{ weather.wind_speed }} m/s</p>
+            </div>
+            <div class="weather-card">
+                <strong>Direction</strong>
+                <p>{{ weather.wind_direction }}°</p>
+            </div>
+            <div class="weather-card">
+                <strong>Lever du Soleil</strong>
+                <p>{{ weather.sunrise }}</p>
+            </div>
+            <div class="weather-card">
+                <strong>Coucher du Soleil</strong>
+                <p>{{ weather.sunset }}</p>
+            </div>
+        </div>
+    </div>
 
     {% endif %}
+
     {% if error %}
-            <h4>{{ error }}</h4>
+        <h4 class="d-flex justify-content-center" style="color: red; transition: all 2s ease-in-out">{{ error }}</h4>
     {% endif %}
-    {% if test %}
-            <h4>{{ test }}</h4>
+    
+    {% if welcome %}
+        <h4 class="d-flex justify-content-center">{{ welcome }}</h4>
     {% endif %}
+<script>
+    // JavaScript to trigger animations based on the weather condition
+    document.addEventListener("DOMContentLoaded", function () {
+        const condition = "{{ weather.icon if weather and not weather.error else '' }}".toLowerCase();
+        const animationContainer = document.getElementById("animation-container");
 
+        if (condition.includes("04d")) {
+            createSnowEffect();
+        } else if (condition.includes("10d")) {
+            createRainEffect();
+        } else if (condition.includes("50d")) {
+            createSunEffect();
+        } else if (condition.includes("02d")) {
+            createSunEffect();
+        }  else if (condition.includes("04d")) {
+            createCloudEffect();
+        }
+
+        function createSnowEffect() {
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.style.left = Math.random() * 100 + "vw";
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
+                animationContainer.appendChild(snowflake);
+            }
+        }
+
+        function createRainEffect() {
+            for (let i = 0; i < 50; i++) {
+                const rainDrop = document.createElement("div");
+                rainDrop.className = "rain-drop";
+                rainDrop.style.left = Math.random() * 100 + "vw";
+                rainDrop.style.animationDuration = Math.random() * 2 + 1 + "s";
+                animationContainer.appendChild(rainDrop);
+            }
+        }
+
+        function createSunEffect() {
+            const sun = document.createElement("div");
+            sun.className = "sun";
+            animationContainer.appendChild(sun);
+        }
+
+        function createCloudEffect() {
+            const cloud = document.createElement("div");
+            cloud.className = "cloud";
+            animationContainer.appendChild(cloud);
+        }
+    });
+</script>
+
+    <script src="static/icons/icons.js"></script>
+</body>
 {% endblock %}

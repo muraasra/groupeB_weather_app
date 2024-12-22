@@ -1,134 +1,198 @@
+.weather-found {
+    background-color: #1E3A8A; /* Bleu ciel */
+    transition: background-color 0.5s ease-in-out; /* Animation douce */
+    color: rgb(253, 251, 251);
+}
 
-        /* Styles de base */
+/* Styles de base */
 body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #1E3A8A; /* Fond bleu foncé par défaut */
-            color: white;
-            transition: background-color 1s ease;
-    }
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #1E3A8A; /* Fond bleu foncé par défaut */
+    color: white;
+    transition: background-color 1s ease;
+}
 
 h1, form {
-            text-align: center;
-            margin-top: 20px;
-        }
+    text-align: center;
+    margin-top: 20px;
+}
 
 form input, form button {
-            padding: 10px;
-            font-size: 16px;
-            margin: 5px;
-        }
-
-.weather-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        /* Animation Nuage */
-.cloud {
-            position: absolute;
-            top: 20%;
-            left: -200px;
-            width: 200px;
-            height: 100px;
-            background-color: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            animation: moveCloud 3s linear forwards;
-        }
-
- @keyframes moveCloud {
-            0% { left: -200px; }
-            100% { left: 30%; }
-        }
-
-        /* Flocons de neige */
-        .
-/* Flocons de neige */
-.snowflake {
-    position: absolute;
-    top: 0;
-    background-color: white;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    animation: fall 5s linear infinite;
-    opacity: 0.8;
+    padding: 10px;
+    font-size: 16px;
+    margin: 5px;
 }
 
-@keyframes fall {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100vh); }
-}
-
-/* Gouttes de pluie */
-.rain-drop {
-    position: absolute;
-    top: 0;
-    background-color: #4FC3F7;
-    width: 3px;
-    height: 20px;
-    border-radius: 50%;
-    animation: rainFall 2s linear infinite;
-}
-
-@keyframes rainFall {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100vh); }
-}
-
-/* Soleil */
-.sun {
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    width: 100px;
-    height: 100px;
-    background-color: #FFB74D;
-    border-radius: 50%;
-    animation: riseSun 3s ease-out forwards;
-}
-
-@keyframes riseSun {
-    0% { transform: translateY(0); }
-    100% { transform: translate(-50%, -300px); }
-}
-
-    /*
-html, body {
- background-image: url(vignette_paysage-12-ff1e58-0@1x.jpg);
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(to bottom,  #2a8bec, #2a8bec);
-}
-
-.left-box {
-    background: #0cc7eda1;
-    color: white;
-    padding: 30px;
+/* Icône pleine largeur */
+#weather-icon {
     text-align: center;
-    border-radius: 50px;
-    justify-content: center;
-
+    margin-bottom: 20px;
 }
 
-.featured-image img {
-    max-width: 100%;
-    height: auto;
-}
-/*
-.head {
+/* Conteneur des cartes */
+.weather-cards {
     display: flex;
-    justify-content: center;  
-    align-items: center;      
-    height: 100px;            
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
 }
 
-.head .logo {
-    max-width: 100%;         
-    height: auto;             
-    max-height: 100px;        
+/* Style des cartes */
+.weather-card {
+    background: #ebeaea;
+    border: 1px solid #ddd;
+    color: black;
+    border-radius: 8px;
+    padding: 10px 15px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition fluide */
 }
-*/
+
+/* Effet d'agrandissement lors du survol des cartes */
+.weather-card:hover {
+    transform: scale(1.1); /* Agrandir la carte de 10% */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre plus marquée */
+    background-color: rgb(0, 187, 255);
+}
+
+/* Titre en haut des cartes */
+.weather-card strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Texte sous le titre */
+.weather-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Conteneur météo - Position initiale et ajout du défilement */
+.weather-block-horizontal {
+    position: relative;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 1s ease-out, opacity 1s ease-out;
+    max-height: 80vh;  /* Hauteur maximale de 80% de la hauteur de la fenêtre */
+    overflow-y: auto;  /* Ajoute un défilement vertical si nécessaire */
+}
+
+/* Conteneur météo - Position finale (visible sur la page) */
+.weather-block-horizontal.show-weather {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Icône pleine largeur */
+#weather-icon {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Animation d'apparition des informations météo */
+.weather-block-horizontal {
+    transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+/* Conteneur pour l'animation de l'élément weather */
+.weather-block-horizontal.show-weather {
+    transform: translateX(0);
+    opacity: 1;
+}
+/* Style de base du conteneur d'effets */
+#weather-effect {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Les effets ne doivent pas interférer avec les autres éléments */
+    z-index: -1; /* Assurez-vous que les effets sont en arrière-plan */
+}
+
+    /* Animation container */
+    #animation-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    /* Snow effect */
+    .snowflake {
+        position: absolute;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 50%;
+        animation: fall 5s linear infinite;
+        opacity: 0.8;
+    }
+    
+    @keyframes fall {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(100vh); }
+    }
+    
+    /* Rain effect */
+    .rain-drop {
+        position: absolute;
+        top: 0;
+        width: 2px;
+        height: 15px;
+        background-color: #4FC3F7;
+        animation: rain 2s linear infinite;
+        opacity: 0.8;
+    }
+    
+    @keyframes rain {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(100vh); }
+    }
+    
+    /* Sun effect */
+    .sun {
+        position: absolute;
+        bottom: 200px;
+        right: 20px;
+        width: 100px;
+        top: 20px;
+        height: 100px;
+        background: radial-gradient(circle, #FFD700, #FF8C00);
+        border-radius: 50%;
+        animation: rise 3s ease-out forwards;
+    }
+    
+    @keyframes rise {
+        0% { transform: translateY(1000px); }
+        100% { transform: translateY(0); }
+    }
+    
+    /* Cloud effect */
+    .cloud {
+        position: absolute;
+        top: 50px;
+        left: 20px;
+        width: 200px;
+        border-radius: 50%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        animation: moveCloud 5s linear forwards;
+    }
+    
+    @keyframes moveCloud {
+        0% { transform: translateX(100px); }
+        100% { transform: translateX(0); }
+    }
+    
