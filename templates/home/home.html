@@ -1,13 +1,11 @@
 {% extends "default.html" %}
 {% block body %}
-<!-- Lien vers le fichier CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <body data-weather="Rain" class="{% if weather %}weather-found{% endif %} {% if error %}weather-found{% endif %} {% if test %}weather-found{% endif %}">
     <div class="container">
         <div class="data-toggle"></div>
-        <h1>"W-App : Votre météo est notre priorité"</h1>
+        <h1>Weather-App : Votre météo est notre priorité</h1>
         <div id="animation-container"></div>
 
         <form method="POST" action="/">
@@ -82,59 +80,25 @@
     
     {% if welcome %}
         <h4 class="d-flex justify-content-center">{{ welcome }}</h4>
+       
+
+   
+
+    <div class="header">
+        <h1>Données Météorologiques</h1>
+    </div>
+        <div class="section">
+            <h2>À propos de nous</h2>
+            <p>Nous fournissons des données météorologiques précises et en temps réel pour vous aider à planifier vos journées et vos activités.</p>
+        </div>
+        
+    </div>
+  
+
+
     {% endif %}
-<script>
-    // JavaScript to trigger animations based on the weather condition
-    document.addEventListener("DOMContentLoaded", function () {
-        const condition = "{{ weather.icon if weather and not weather.error else '' }}".toLowerCase();
-        const animationContainer = document.getElementById("animation-container");
-
-        if (condition.includes("04d")) {
-            createSnowEffect();
-        } else if (condition.includes("10d")) {
-            createRainEffect();
-        } else if (condition.includes("50d")) {
-            createSunEffect();
-        } else if (condition.includes("02d")) {
-            createSunEffect();
-        }  else if (condition.includes("04d")) {
-            createCloudEffect();
-        }
-
-        function createSnowEffect() {
-            for (let i = 0; i < 50; i++) {
-                const snowflake = document.createElement("div");
-                snowflake.className = "snowflake";
-                snowflake.style.left = Math.random() * 100 + "vw";
-                snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
-                animationContainer.appendChild(snowflake);
-            }
-        }
-
-        function createRainEffect() {
-            for (let i = 0; i < 50; i++) {
-                const rainDrop = document.createElement("div");
-                rainDrop.className = "rain-drop";
-                rainDrop.style.left = Math.random() * 100 + "vw";
-                rainDrop.style.animationDuration = Math.random() * 2 + 1 + "s";
-                animationContainer.appendChild(rainDrop);
-            }
-        }
-
-        function createSunEffect() {
-            const sun = document.createElement("div");
-            sun.className = "sun";
-            animationContainer.appendChild(sun);
-        }
-
-        function createCloudEffect() {
-            const cloud = document.createElement("div");
-            cloud.className = "cloud";
-            animationContainer.appendChild(cloud);
-        }
-    });
-</script>
-
-    <script src="static/icons/icons.js"></script>
+    <div class="footer">
+        <p>&copy; 2024 Données Météorologiques. Tous droits réservés.</p>
+    </div>
 </body>
 {% endblock %}

@@ -1,94 +1,229 @@
+<!DOCTYPE html>
 
-{% block body %}{% endblock body %}
-<style>
-body{
-    background-color: #1E3A8A;
-    color: white;
-}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Votre meteo</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <!-- Lien vers le fichier CSS -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles.css') }}"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  {% block body %}{% endblock body %}
+  <style>
+    body {
+      background-color: #1e3a8a;
+      color: white;
+    }
     /* Animation container */
     #animation-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-    /* Snow effect */
-    .snowflake {
-            position: absolute;
-            top: 0;
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border-radius: 50%;
-            animation: fall 5s linear infinite;
-            opacity: 0.8;
-        }
-        
-    @keyframes fall {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100vh); }
-        }
-        
-    /* Rain effect */
-    .rain-drop {
-            position: absolute;
-            top: 0;
-            width: 2px;
-            height: 15px;
-            background-color: #4FC3F7;
-            animation: rain 2s linear infinite;
-            opacity: 0.8;
-        }
-        
-    @keyframes rain {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100vh); }
-        }
-        
-    /* Sun effect */
-    .sun {
-            position: absolute;
-            bottom: 200px;
-            right: 20px;
-            width: 100px;
-            top: 20px;
-            height: 100px;
-            background: radial-gradient(circle, #FFD700, #FF8C00);
-            border-radius: 50%;
-            animation: rise 3s ease-out forwards;
-        }
-        
-    @keyframes rise {
-            0% { transform: translateY(1000px); }
-            100% { transform: translateY(0); }
-        }
-        
-    /* Cloud effect */
-    .cloud {
-            position: absolute;
-            top: 50px;
-            left: 20px;
-            width: 200px;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            animation: moveCloud 5s linear forwards;
-        }
-        
-    @keyframes moveCloud {
-            0% { transform: translateX(100px); }
-            100% { transform: translateX(0); }
-        }
-        .history{
-        display: flex ;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        top: 20px;
-        left: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
     }
 
-        </style>
+    /* Snow effect */
+    .snowflake {
+      position: absolute;
+      top: 0;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+
+    /* Rain effect */
+    .rain-drop {
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 15px;
+      background-color: #4fc3f7;
+      animation: rain 2s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes rain {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(100vh);
+      }
+    }
+
+    /* Sun effect */
+    .sun {
+      position: absolute;
+      bottom: 200px;
+      right: 20px;
+      width: 100px;
+      top: 20px;
+      height: 100px;
+      background: radial-gradient(circle, #ffd700, #ff8c00);
+      border-radius: 50%;
+      animation: rise 3s ease-out forwards;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(1000px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    /* Cloud effect */
+    .cloud {
+      position: absolute;
+      top: 50px;
+      left: 20px;
+      width: 200px;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      animation: moveCloud 5s linear forwards;
+    }
+
+    @keyframes moveCloud {
+      0% {
+        transform: translateX(100px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+    .history {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .header {
+      background-color: #4caf50;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px;
+    }
+    .hero {
+      background-size: cover;
+      background-position: center;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+    .hero h1 {
+      font-size: 48px;
+    }
+    .section {
+      margin: 20px 0;
+    }
+    .section h2 {
+      color: #4caf50;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0px;
+      width: 100%;
+      background-color: #f1f1f1;
+      padding: 10px;
+      text-align: center;
+      color: #333;
+    }
+  </style>
+  <script>
+    // annimation basé sur les Informations meteo
+    document.addEventListener("DOMContentLoaded", function () {
+      const condition =
+        "{{ weather.icon if weather and not weather.error else '' }}".toLowerCase();
+      const animationContainer = document.getElementById("animation-container");
+
+      if (condition.includes("04d")) {
+        createSnowEffect();
+      } else if (condition.includes("04n")) {
+        createSnowEffect();
+      } else if (condition.includes("10d")) {
+        createRainEffect();
+      } else if (condition.includes("09n")) {
+        createRainEffect();
+      } else if (condition.includes("50d")) {
+        createSunEffect();
+      } else if (condition.includes("02d")) {
+        createSunEffect();
+      } else if (condition.includes("01d")) {
+        createSunEffect();
+      } else if (condition.includes("04d")) {
+        createCloudEffect();
+      }
+
+      function createSnowEffect() {
+        for (let i = 0; i < 50; i++) {
+          const snowflake = document.createElement("div");
+          snowflake.className = "snowflake";
+          snowflake.style.left = Math.random() * 100 + "vw";
+          snowflake.style.animationDuration = Math.random() * 3 + 2 + "s";
+          animationContainer.appendChild(snowflake);
+        }
+      }
+
+      function createRainEffect() {
+        for (let i = 0; i < 50; i++) {
+          const rainDrop = document.createElement("div");
+          rainDrop.className = "rain-drop";
+          rainDrop.style.left = Math.random() * 100 + "vw";
+          rainDrop.style.animationDuration = Math.random() * 2 + 1 + "s";
+          animationContainer.appendChild(rainDrop);
+        }
+      }
+
+      function createSunEffect() {
+        const sun = document.createElement("div");
+        sun.className = "sun";
+        animationContainer.appendChild(sun);
+      }
+
+      function createCloudEffect() {
+        const cloud = document.createElement("div");
+        cloud.className = "cloud";
+        animationContainer.appendChild(cloud);
+      }
+    });
+  </script>
+
+  <script src="static/icons/icons.js"></script>
+</html>

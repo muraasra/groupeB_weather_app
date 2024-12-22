@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "city": "bafoussam",
+        "weather": {
+            "city": "bafoussam",
+            "temperature": 23.94,
+            "description": "nuageux",
+            "icon": "04d",
+            "date": "2024-12-22 09:48:46",
+            "country": "CM",
+            "feels_like": 23.2,
+            "pressure": 1015,
+            "humidity": 31,
+            "wind_speed": 2.2,
+            "wind_direction": 89,
+            "sunrise": "06:22",
+            "sunset": "18:11",
+            "condition": "Nuageux"
+        },
+        "timestamp": "2024-12-22 09:48:46"
+    }
+]

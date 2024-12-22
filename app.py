@@ -1,6 +1,5 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify , Response# type: ignore
-from flask import Flask, render_template, redirect, url_for
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
@@ -15,7 +14,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-
+#Affichage de L'historique
 @app.route("/history")
 def history():
     try:
@@ -57,6 +56,7 @@ def clear_history():
 
  
 @app.route("/download_history")
+
 def download_history():
     try:
         # Charger l'historique des recherches
@@ -72,24 +72,34 @@ def download_history():
     
     # Créer un CSV en mémoire
     output = io.StringIO()
-    writer = csv.writer(output, delimiter=";", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    writer = csv.writer(output, delimiter="|", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    
     
     # Ajouter les entêtes au fichier CSV
     writer.writerow(["Ville", "Temperature", "Description", "Date et Heure"])
+    writer.writerow([])
 
     # Ajouter chaque entrée de l'historique
+    table_data = []
     for entry in search_history:
         weather_data = entry["weather"]
-        writer.writerow([
+        row = [
             entry["city"],
             weather_data.get("temperature", "N/A"),
             weather_data.get("description", "N/A"),
             entry["timestamp"]
-        ])
+        ]
+        writer.writerow(row)
+        table_data.append({
+            "city": entry["city"],
+            "temperature": weather_data.get("temperature", "N/A"),
+            "description": weather_data.get("description", "N/A"),
+            "timestamp": entry["timestamp"]
+        })
 
     output.seek(0)
 
-    # Retourner le fichier CSV
+    # Créer l'option de téléchargement du fichier CSV
     return Response(
         output.getvalue().encode("utf-8-sig"),  # Encodage UTF-8 avec BOM
         mimetype="text/csv",
@@ -97,46 +107,6 @@ def download_history():
     )
 
 
-
-#@app.route("/weather", methods=["GET", "POST"])
-@app.route("/notuse", methods=["GET", "POST"])
-def get_weather_data(city):
-    API_KEY="02aacefe86b70d9accb3ee543d9b982b"
-    API_URL="http://api.openweathermap.org/data/2.5/weather"
-
-    params={
-        "q":city,
-        "appid": API_KEY,
-        "units": "metric", #celsius
-        "lang": "en" #language
-    }
-
-    try:
-        #send the GET request to the OpenWeather API
-        response=requests.get(API_URL,params=params)
-
-        #Check if the response is successful
-        if response.status_code==200:
-            return response.json()# Return weather data as dictionary
-        else:
-            return None #handle cases when city is not found or an error occurs
-    except Exception as e:
-        print(f"Error fetching weather data:{e}")
-        return None
-    
-def index():
-    if request.method =="POST":
-        city = request.form.get("city")
-        weather_data= get_weather_data("city") #Function to fetch weather data
-        if weather_data:
-            #Extract necessary fields from the weather data
-            #temperature= weather_data["main"]["temp"]
-            #weather_description=weather_data["weather"][0]["description"]
-
-            save_search(city, weather_data)# save the search
-        return render_template("index.html", weather=weather_data , city=city)
-        #return render_template("index.html", error="City not found or API error" , city=city)
-    return render_template("index.html")
 
 @app.route("/", methods=["GET", "POST"])
 
@@ -173,19 +143,9 @@ def get_weather():
                     'condition': data['weather'][0]['description'].title(),
                     'icon': data['weather'][0]['icon']
                 }
+                # enregistrer l'historique
                 save_search(city,weather)
-                # Recuperer les previsions des prochain 7 jours 
-                # lat = data['coord']['lat']
-                # lon = data['coord']['lon']
                 
-                # # forecast_url = f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={os.getenv("API_KEY")}"
-                # forecast_url=f"http://pro.openweathermap.org/data/2.5/weather?q=London,uk&APPID=386218d81396d399cc00cf098a429bb1"
-                # # forecast_url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&exclude=current,minutely,hourly,alerts&units=metric&appid={os.getenv("API_KEY")}"
-                # forecast_response = requests.get(forecast_url)
-                # pdb.set_trace()                
-                # if forecast_response.status_code == 200:
-                    
-                #     forecast_data = forecast_response.json()['daily']  # Prévisions 7 jours
                 
                
                 return render_template("home/home.html", weather=weather,response=response.json(), city=city)
