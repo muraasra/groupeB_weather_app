@@ -31,4 +31,5 @@ Ce projet est une application web simple permettant de consulter les information
     ```bash
     pip install -r requierements.txt
 4. Lancer l'Appication avec : python app.py et connectez vous sur l'adrrese :
+    ```bash
     127.0.0.1:8080
