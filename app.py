@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, request, redirect, url_for, jsonify , Response# type: ignore
+from flask import Flask, render_template, redirect, url_for
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
@@ -44,34 +45,57 @@ def save_search(city,weather_data):
     #Save the updated history back to the file
     with open ("search_history.json", "w") as file:
         json.dump(search_history,file,indent=4)
+
+@app.route('/clear_history', methods=['POST'])
+def clear_history():
+    # Vide le fichier search_history.json en réécrivant un tableau vide
+    with open("search_history.json", "w") as file:
+        json.dump([], file, indent=4)
+    
+    # Redirige l'utilisateur vers la page d'historique après avoir vidé l'historique
+    return redirect(url_for('history'))
+
  
 @app.route("/download_history")
 def download_history():
     try:
-        #Load search history from JSON
+        # Charger l'historique des recherches
         with open("search_history.json", "r") as file:
-            search_history=json.load(file)
-    except(FileNotFoundError, json.JSONDecodeError):
-        search_history=[]
-    #Create CSV in memory
-    output= io.StringIO()
-    writer=csv.writer(output)
-    #Write CSV headers
-    writer.writerow(["Ville", "Temperature ","Description","Date et Heure"])
+            search_history = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        search_history = []
+
+    # Vérifier si l'historique est vide
+    if not search_history:
+        error = "Aucune recherche dans l'historique. Impossible de télécharger."
+        return render_template("history/history.html", error=error)
     
-    #Write each entry in the CSV
+    # Créer un CSV en mémoire
+    output = io.StringIO()
+    writer = csv.writer(output, delimiter=";", quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    
+    # Ajouter les entêtes au fichier CSV
+    writer.writerow(["Ville", "Temperature", "Description", "Date et Heure"])
+
+    # Ajouter chaque entrée de l'historique
     for entry in search_history:
         weather_data = entry["weather"]
-        writer.writerow([entry["city"], weather_data["temperature"], weather_data["description"], entry["timestamp"]])
-        
+        writer.writerow([
+            entry["city"],
+            weather_data.get("temperature", "N/A"),
+            weather_data.get("description", "N/A"),
+            entry["timestamp"]
+        ])
+
     output.seek(0)
 
-    #serve CSV as a response
+    # Retourner le fichier CSV
     return Response(
-        output,
+        output.getvalue().encode("utf-8-sig"),  # Encodage UTF-8 avec BOM
         mimetype="text/csv",
-        headers={"Content-Disposition": "attachment; filename= historique.csv"}
+        headers={"Content-Disposition": "attachment; filename=historique.csv"}
     )
+
 
 
 #@app.route("/weather", methods=["GET", "POST"])
